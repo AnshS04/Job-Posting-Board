@@ -8,7 +8,7 @@ const Navbar = () => {
     const [hasToken, setHasToken] = useState(false);
 
     useEffect(() => {
-        if(token !== "") {
+        if(token !== "" || localStorage.getItem("token") !== null) {
             setHasToken(true);
         }
         else {
@@ -27,7 +27,7 @@ const Navbar = () => {
       ) : (
         <>
           <img src={logo} alt="Logo" width={100} />
-          <div className='flex flex-row'>
+          <div className='flex flex-row space-x-5'>
           <button>Contact</button>
             <DropDown/>
           </div>

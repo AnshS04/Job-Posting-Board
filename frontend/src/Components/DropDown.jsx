@@ -12,6 +12,7 @@ const DropDown = () => {
     // Clear the token and any relevant data from localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("name");
+    localStorage.removeItem("company_email");
     // Redirect to the login or home page
     navigate("/"); // Change to your desired route
     setToken("");

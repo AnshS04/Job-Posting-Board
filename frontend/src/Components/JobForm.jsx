@@ -1,26 +1,34 @@
 import React, { useState } from "react";
 import axios from "axios";
+import CandidateBadge from "./CandidateBadge";
 
 const JobForm = () => {
   const [candidates, setCandidates] = useState([]);
   const [candidate, setCandidate] = useState("");
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [level, setLevel] = useState("");
+  const [level, setLevel] = useState("Entry Level");
   const [endDate, setEndDate] = useState("");
 
-  const handleSubmit = async () => {
-    if (!title || !desc || !level || !endDate || candidates.length === 0) {
-      alert("Please fill in all fields and add at least one candidate.");
-      return;
+  const addCandidate = () => {
+    if (candidate.trim()) {
+      // Ensure candidate is not empty
+      setCandidates((prevCandidates) => [...prevCandidates, candidate]);
+      setCandidate(""); // Reset input field after adding
+    } else {
+      alert("Please enter a candidate name.");
     }
+  };
 
+  
+
+  const handleSubmit = async () => {
     const jobData = {
-      title,
+      title: title,
       description: desc,
       experienceLevel: level,
-      endDate,
-      candidates,
+      endDate: endDate,
+      candidates: candidates,
     };
 
     // Retrieve the token from localStorage
@@ -54,8 +62,6 @@ const JobForm = () => {
     }
   };
 
-
-
   return (
     <div className="flex flex-col space-y-5 w-1/2">
       <div className="flex justify-between items-center space-x-2">
@@ -77,7 +83,7 @@ const JobForm = () => {
         </label>
         <textarea
           id="job-description"
-          rows="5"
+          rows="3"
           className="border-2 border-gray-600 w-1/2"
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
@@ -109,24 +115,42 @@ const JobForm = () => {
             id="add-candidate"
             type="text"
             className="border-2 border-gray-600 w-full"
+            value={candidate} // Control the input value
             onChange={(e) => setCandidate(e.target.value)}
-            value={candidate}
           />
           <button
             type="button"
             className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
-            onClick={() => {
-              if (candidate.trim()) {
-                setCandidates([...candidates, candidate]);
-                alert(`${candidate} added`);
-                setCandidate("");
-              } else {
-                alert("Please enter a candidate name");
-              }
-            }}
+            onClick={addCandidate}
           >
             Add
           </button>
+        </div>
+      </div>
+
+      <div className="flex justify-between items-center space-x-2">
+        <label
+          htmlFor="candidates-list"
+          className="text-2xl w-1/2 text-right"
+        ></label>
+        <div
+          id="candidates-list"
+          className="border-2 border-gray-600 w-1/2 min-h-20 max-h-20 flex flex-row flex-wrap overflow-y-auto"
+          style={{
+            whiteSpace: "normal", // Allow wrapping
+            overflowWrap: "break-word", // Prevent overflow
+          }}
+        >
+          {candidates.map((candidateEmail, index) => (
+            <div key={index}>
+              <CandidateBadge
+                candidateEmail={candidateEmail}
+                // removeCandidate={removeCandidate} // Corrected prop name
+                candidates={candidates}
+                setCandidates={setCandidates}
+              />
+            </div>
+          ))}
         </div>
       </div>
 

@@ -1,7 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import RegisterForm from '../Components/RegisterForm'
+import { useNavigate } from 'react-router-dom'
 
 const RegisterPage = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if(token) {
+            navigate("/dashboard");
+        }
+
+        // eslint-disable-next-line 
+    }, [])
+    
+
     return (
         <div className='flex flex-grow justify-center space-x-40 items-center'>
             <div className='w-1/3'>

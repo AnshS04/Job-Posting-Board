@@ -4,8 +4,26 @@ const twilio = require('twilio');
 const jwt = require('jsonwebtoken');
 
 const registerCompany = async (req, res) => {
+    const { registrant_name, mobile, company_name, company_email, employee_size } = req.body;
+    console.log(req.body);
     try {
-        const { registrant_name, mobile, company_name, company_email, employee_size } = req.body;
+        if(!registrant_name || !mobile || !company_name || !company_email || !employee_size) {
+            return res.status(400).json({ message: 'Enter all details.' });
+        }
+
+        const indianPhonePattern = /^\+91[6-9][0-9]{9}$/;
+        if (!indianPhonePattern.test(mobile)) {
+            return res.status(400).json({ message: 'Enter valid phone number with country code.' });
+        }
+
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailPattern.test(company_email)) {
+            return res.status(400).json({ message: 'Enter valid email.' });
+        }
+
+        if (isNaN(employee_size)) {
+            return res.status(400).json({ message: 'Employee size should be a valid number.' });
+        }
 
         const existingCompany = await Company.findOne({ company_email });
         if (existingCompany) return res.status(400).json({ message: 'Company already exists' });

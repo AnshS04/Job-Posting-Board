@@ -31,6 +31,7 @@ const sendEmails = async (emailArray, subject, text) => {
 
 const postJob = async (req, res) => {
   const { title, description, experienceLevel, endDate, candidates } = req.body;
+  console.log("--------->", req.body);
 
   try {
     const newJob = new Job({

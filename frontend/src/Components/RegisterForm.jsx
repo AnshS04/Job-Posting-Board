@@ -40,7 +40,7 @@ const RegisterForm = () => {
             alert(response.data.message);
             setRegistered(true);
         } catch (error) {
-            console.error("Error:", error.response?.data || error.message || error);
+            alert(error.response.data.message);
             setLoading(false);
         }
     }

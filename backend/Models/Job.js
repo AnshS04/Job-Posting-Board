@@ -18,10 +18,10 @@ const jobSchema = new mongoose.Schema({
     },
     endDate: {
         type: Date,
-        required: true,  // End date is required
+        required: true,
         validate: {
             validator: function (v) {
-                return v > new Date(); // Validate that end date is in the future
+                return v > new Date();
             },
             message: props => `${props.value} is not a valid end date! End date must be in the future.`
         }
