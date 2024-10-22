@@ -34,6 +34,14 @@ const postJob = async (req, res) => {
   console.log("--------->", req.body);
 
   try {
+    if(!title || !description || !experienceLevel || !endDate || !candidates) {
+      return res.status(400).json({ message: "Enter all details." });
+    }
+
+    if (new Date(endDate) <= new Date()) {
+      return res.status(400).json({ message: "Not a valid end date! End date must be in the future." });
+    }
+
     const newJob = new Job({
       title,
       description,
@@ -59,6 +67,7 @@ Company Employee Size: ${company.employee_size}`;
     res.status(201).json({ message: "Job posted successfully" });
   } catch (error) {
     console.error(error);
+    return res.status(400).json({ message: "Some error occured." });
   }
 };
 

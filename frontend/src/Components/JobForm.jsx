@@ -11,12 +11,13 @@ const JobForm = () => {
   const [endDate, setEndDate] = useState("");
 
   const addCandidate = () => {
-    if (candidate.trim()) {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (candidate.trim() && emailPattern.test(candidate)) {
       // Ensure candidate is not empty
       setCandidates((prevCandidates) => [...prevCandidates, candidate]);
       setCandidate(""); // Reset input field after adding
     } else {
-      alert("Please enter a candidate name.");
+      alert("Enter a valid candidate email.");
     }
   };
 
@@ -53,12 +54,12 @@ const JobForm = () => {
       // Clear form fields after successful submission
       setTitle("");
       setDesc("");
-      setLevel("");
+      setLevel("Entry Level");
       setEndDate("");
       setCandidates([]);
     } catch (error) {
       console.error("Error posting job:", error);
-      alert("Failed to post job.");
+      alert(error.response.data.message);
     }
   };
 
@@ -135,7 +136,7 @@ const JobForm = () => {
         ></label>
         <div
           id="candidates-list"
-          className="border-2 border-gray-600 w-1/2 min-h-20 max-h-20 flex flex-row flex-wrap overflow-y-auto"
+          className="border-2 border-gray-600 w-1/2 min-h-16 max-h-16 flex flex-row flex-wrap overflow-y-auto"
           style={{
             whiteSpace: "normal", // Allow wrapping
             overflowWrap: "break-word", // Prevent overflow

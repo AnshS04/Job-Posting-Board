@@ -81,8 +81,12 @@ const registerCompany = async (req, res) => {
 };
 
 const verifyEmail = async (req, res) => {
+    const {email, otp} = req.body;
     try {
-        const {email, otp} = req.body;
+        if(!otp) {
+            return res.status(400).json({ message: "Invalid OTP" });
+        }
+
         console.log(email);
         const company = await Company.findOne({ company_email: email });
         console.log(company.company_name);
@@ -108,8 +112,11 @@ const verifyEmail = async (req, res) => {
 };
 
 const verifyPhone = async (req, res) => {
+    const { email, otp } = req.body;
     try {
-        const { email, otp } = req.body;
+        if (!otp) {
+            return res.status(400).json({ message: "Invalid OTP" });
+        }
         const company = await Company.findOne({ company_email: email });
 
         if (otp == company.phone_otp) {

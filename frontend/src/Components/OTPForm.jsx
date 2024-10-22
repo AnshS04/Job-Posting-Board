@@ -52,6 +52,7 @@ const OTPForm = () => {
             "Error:",
             error.response?.data || error.message || error
           );
+          alert(error.response.data.message);
           setEmailLoading(false);
         }
     };
@@ -90,6 +91,7 @@ const OTPForm = () => {
             "Error:",
             error.response?.data || error.message || error
           );
+          alert(error.response.data.message);
           setMobileLoading(false);
         }
     }
